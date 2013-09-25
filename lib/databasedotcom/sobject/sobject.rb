@@ -2,7 +2,11 @@ module Databasedotcom
   module Sobject
     # Parent class of dynamically created sobject types. Interacts with Force.com through a Client object that is passed in during materialization.
     class Sobject
-      cattr_accessor :client
+      if Class.respond_to?(:class_attribute)
+        class_attribute :client
+      else # ActiveSupport 2.x
+        class_inheritable_accessor :client
+      end      
       extend ActiveModel::Naming if defined?(ActiveModel::Naming)
 
       def ==(other)
