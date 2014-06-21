@@ -124,6 +124,12 @@ module Databasedotcom
           self.instance_url = options[:instance_url]
           self.oauth_token = options[:token]
           self.refresh_token = options[:refresh_token]
+          if (self.oauth_token == "")
+            req = https_request(self.host)
+            path = encode_path_with_params('/services/oauth2/token', :grant_type => 'refresh_token', :client_id => self.client_id, :client_secret => self.client_secret, :refresh_token => self.refresh_token)
+            result = req.post(path, "")
+            parse_auth_response(result.body)
+          end
         end
       end
 
