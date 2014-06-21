@@ -127,7 +127,10 @@ module Databasedotcom
           if (self.oauth_token == "")
             req = https_request(self.host)
             path = encode_path_with_params('/services/oauth2/token', :grant_type => 'refresh_token', :client_id => self.client_id, :client_secret => self.client_secret, :refresh_token => self.refresh_token)
+            log_request("https://#{self.host}/#{path}")
             result = req.post(path, "")
+            log_response(result)
+            raise SalesForceError.new(result) unless result.is_a?(Net::HTTPOK)
             parse_auth_response(result.body)
           end
         end
