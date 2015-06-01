@@ -210,6 +210,14 @@ module Databasedotcom
         self.type_map_attr(attr_name, :createable?)
       end
 
+      # Returns the Force.com type of the attribute +attr_name+. Raises ArgumentError if attribute does not exist.
+      #
+      #    client.materialize("Car")
+      #    Car.field_type("Color")    #=> "string"
+      def self.inline_help_text(attr_name)
+        self.type_map_attr(attr_name, :inline_help_text)
+      end
+
       # Delegates to Client.find with arguments +record_id+ and self
       #
       #    client.materialize("Car")
@@ -341,7 +349,8 @@ module Databasedotcom
           :label => field["label"],
           :picklist_values => field["picklistValues"],
           :updateable? => field["updateable"],
-          :createable? => field["createable"]
+          :createable? => field["createable"],
+          :inline_help_text => field["inlineHelpText"]
         }
       end
 
